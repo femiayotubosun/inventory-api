@@ -8,7 +8,7 @@ class ProductService:
     def update_product(self):
         pass
 
-    def find_product_by_id(self):
+    def find_product_by_id(self, product_id):
         pass
 
     def find_products(self):
