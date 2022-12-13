@@ -1,21 +1,33 @@
+from application.models import Product
+from application.extensions import db
+
+
 class ProductService:
-    def __init__(self):
+
+    @staticmethod
+    def create_product(**kwargs):
+        product = Product(**kwargs)
+        db.session.add(product)
+        db.session.commit()
+
+    @staticmethod
+    def update_product():
         pass
 
-    def create_product(self):
+    @staticmethod
+    def find_product_by_id( product_id):
+        product = Product.query.get(product_id)
+        if not product:
+            raise No
+
+    @staticmethod
+    def find_products():
+        return Product.query.all()
+
+    @staticmethod
+    def find_product_by_name():
         pass
 
-    def update_product(self):
-        pass
-
-    def find_product_by_id(self, product_id):
-        pass
-
-    def find_products(self):
-        pass
-
-    def find_product_by_name(self):
-        pass
-
-    def order_product(self):
+    @staticmethod
+    def order_product():
         pass

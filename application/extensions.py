@@ -3,5 +3,5 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 
 db: SQLAlchemy = SQLAlchemy()
-ma = Marshmallow()
+ma: Marshmallow = Marshmallow()
 migrate = Migrate()
