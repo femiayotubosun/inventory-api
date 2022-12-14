@@ -2,11 +2,27 @@ from flask import Blueprint, jsonify
 from flask_restful import Api
 from marshmallow import ValidationError
 from application.common import APIError
-from application.services import ProductService
-from application.resources import ProductResource, ProductList
+from application.services import ProductService, CategoryService
+from application.resources import (
+    ProductResource,
+    ProductList,
+    CategoryList,
+    CategoryResource,
+)
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 api = Api(blueprint)
+
+
+# Product Endpoints
+
+api.add_resource(
+    ProductList,
+    "/products/",
+    endpoint="product_list",
+    resource_class_kwargs={"product_service": ProductService},
+)
+
 
 api.add_resource(
     ProductResource,
@@ -15,12 +31,26 @@ api.add_resource(
     resource_class_kwargs={"product_service": ProductService},
 )
 
+
+# Category Endpoints
+
 api.add_resource(
-    ProductList,
-    "/products",
-    endpoint="product_list",
-    resource_class_kwargs={"product_service": ProductService},
+    CategoryList,
+    "/categories/",
+    endpoint="categories_list",
+    resource_class_kwargs={"category_service": CategoryService},
 )
+
+
+api.add_resource(
+    CategoryResource,
+    "/categories/<int:category_id>/",
+    endpoint="category_by_id",
+    resource_class_kwargs={"category_service": CategoryService},
+)
+
+
+# Error Handlers
 
 
 @blueprint.errorhandler(ValidationError)
@@ -35,15 +65,25 @@ def handle_marshmallow_error(e: ValidationError):
     return jsonify(e.messages), 400
 
 
-# @blueprint.errorhandler(APIError)
-# def handle_api_errors(e: APIError):
-#     """
+@blueprint.errorhandler(APIError)
+def handle_api_errors(e: APIError):
+    """
 
-#     :param e: custom APIError error
-#     :return: json error for APIError
+    :param e: custom APIError error
+    :return: json error for APIError
 
-#     This will avoid having to try/catch Errors in all endpoints, returning
-#     correct JSON response with associated HTTP 4xx Status as defined the exceptions
-#     """
+    This will avoid having to try/catch Errors in all endpoints, returning
+    correct JSON response with associated HTTP 4xx Status as defined the exceptions
+    """
 
-#     return jsonify(e.),
+    return (
+        jsonify(
+            {
+                "status": "error",
+                "status_code": e.status_code or 400,
+                "message": e.message,
+                "result": None,
+            }
+        ),
+        e.status_code,
+    )

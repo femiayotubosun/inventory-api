@@ -6,7 +6,7 @@ from application.schemas import ProductSchema
 
 class ProductResource(Resource):
     def __init__(self, *args, **kwargs) -> None:
-        self.product_service = kwargs["product_service"]
+        self.product_service: ProductService = kwargs["product_service"]
 
     def get(self, product_id):
         product = self.product_service.find_product_by_id(product_id)

@@ -1,8 +1,10 @@
 class APIError(Exception):
-    """ Base class for all API errors"""
+    """Base class for all API errors"""
+
     def __init__(self, message: str, status_code: int):
         self.status_code = status_code
-        super().__init__(message)
+        self.message = message
+        super().__init__()
 
 
 class ResourceNotFoundError(APIError):
@@ -12,5 +14,6 @@ class ResourceNotFoundError(APIError):
 
     :param message[optional]: An error message
     """
+
     def __init__(self, message: str = "Resource not found"):
-        super().__init__(message)
+        super().__init__(message, 404)

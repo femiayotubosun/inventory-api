@@ -19,4 +19,5 @@ Use a database of your choice
 
 
 -- Purchase Cart
--- Purchas 1 Product
+-- Purchase 1 Product
+
