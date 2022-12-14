@@ -33,5 +33,20 @@ class ResourceExistsError(APIError):
 
 
 class SQLAlchemyError(APIError):
+    def __init__(self, message: str = "Database Error", status_code: int = 500):
+        super().__init__(message, status_code)
+
+
+class InternalServerError(APIError):
     def __init__(self, message: str = "Internal Server Error", status_code: int = 500):
+        super().__init__(message, status_code)
+
+
+class BadRequestError(APIError):
+    """Raised when an error occurs due to user errors,
+    e.g mistakes in request body.
+
+    """
+
+    def __init__(self, message: str = "Bad request Error", status_code: int = 400):
         super().__init__(message, status_code)

@@ -11,7 +11,7 @@ class ProductList(Resource):
     """
 
     def __init__(self, *args, **kwargs) -> None:
-        self.product_service = kwargs["product_service"]
+        self.product_service: ProductService = kwargs["product_service"]
 
     def get(self):
         products = self.product_service.find_products()

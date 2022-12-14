@@ -2,13 +2,18 @@ from flask import Blueprint, jsonify
 from flask_restful import Api
 from marshmallow import ValidationError
 from application.common import APIError
-from application.services import ProductService, CategoryService
+from application.services import ProductService, CategoryService, CartService
 from application.resources import (
     ProductResource,
     ProductList,
     CategoryList,
     CategoryResource,
     CategoryProductResource,
+    CartResource,
+    CartList,
+    AddCartItemAction,
+    RemoveCartItemAction,
+    PurchaseCartAction,
 )
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -32,6 +37,42 @@ api.add_resource(
     resource_class_kwargs={"product_service": ProductService},
 )
 
+# Cart Endpoints
+
+api.add_resource(
+    CartList,
+    "/carts/",
+    endpoint="cart_list",
+    resource_class_kwargs={"cart_service": CartService},
+)
+
+api.add_resource(
+    CartResource,
+    "/carts/<int:cart_id>",
+    endpoint="one_cart",
+    resource_class_kwargs={"cart_service": CartService},
+)
+
+api.add_resource(
+    AddCartItemAction,
+    "/carts/<int:cart_id>/add",
+    endpoint="add_product_to_cart",
+    resource_class_kwargs={"cart_service": CartService},
+)
+
+api.add_resource(
+    RemoveCartItemAction,
+    "/carts/<int:cart_id>/remove",
+    endpoint="remove_product_to_cart",
+    resource_class_kwargs={"cart_service": CartService},
+)
+
+api.add_resource(
+    PurchaseCartAction,
+    "/carts/<int:cart_id>/purchase",
+    endpoint="purchase_cart",
+    resource_class_kwargs={"cart_service": CartService},
+)
 
 # Category Endpoints
 
@@ -56,6 +97,7 @@ api.add_resource(
     endpoint="create_product_in_category",
     resource_class_kwargs={"category_service": CategoryService},
 )
+
 
 # Error Handlers
 

@@ -1,11 +1,13 @@
 from application.extensions import db
-from application.models.product import Product
 
-cart_product = db.Table(
-    "cart_product",
-    db.Column("cart_id", db.ForeignKey("cart.id"), primary_key=True),
-    db.Column("product_id", db.ForeignKey("product.id"), primary_key=True),
-)
+
+class CartItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.relationship("Product")
+    product_id = db.Column(db.ForeignKey("product.id"))
+    quantity = db.Column(db.Integer, default=1)
+    cart = db.relationship("Cart", back_populates="items")
+    cart_id = db.Column(db.ForeignKey("cart.id"))
 
 
 class Cart(db.Model):
@@ -14,5 +16,5 @@ class Cart(db.Model):
     """
 
     id = db.Column(db.Integer, primary_key=True)
-    products = db.relationship("Product", secondary=cart_product)
+    items = db.relationship("CartItem", back_populates="cart")
     # user

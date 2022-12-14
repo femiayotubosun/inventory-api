@@ -12,3 +12,4 @@ class Product(db.Model):
     price = db.Column(db.Integer)
     category_id = db.Column(db.ForeignKey("category.id"))
     category = db.relationship("Category", back_populates="products")
+

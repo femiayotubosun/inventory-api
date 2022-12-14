@@ -5,7 +5,6 @@ from application.services import CategoryService
 from application.common.responses import (
     generic_success_response,
     create_resource_success_response,
-    delete_resource_success_response,
 )
 
 
@@ -15,7 +14,7 @@ class CategoryList(Resource):
     """
 
     def __init__(self, *args, **kwargs) -> None:
-        self.category_service = kwargs["category_service"]
+        self.category_service: CategoryService = kwargs["category_service"]
 
     def get(self):
         categories = self.category_service.find_categories()

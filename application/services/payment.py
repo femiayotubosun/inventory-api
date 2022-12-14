@@ -11,10 +11,6 @@ class InitializePaymentDTO:
 
 class PaymentService:
     @staticmethod
-    def initialize_payment(dto: InitializePaymentDTO):
-        amount = dto.amount
-        email = dto.email
-        first_name = dto.first_name
-        last_name = dto.last_name
+    def process_payment(*args, **kwargs):
 
         return True
