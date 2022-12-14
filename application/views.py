@@ -8,6 +8,7 @@ from application.resources import (
     ProductList,
     CategoryList,
     CategoryResource,
+    CategoryProductResource,
 )
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -49,6 +50,12 @@ api.add_resource(
     resource_class_kwargs={"category_service": CategoryService},
 )
 
+api.add_resource(
+    CategoryProductResource,
+    "/categories/<int:category_id>/products/",
+    endpoint="create_product_in_category",
+    resource_class_kwargs={"category_service": CategoryService},
+)
 
 # Error Handlers
 
@@ -72,15 +79,15 @@ def handle_api_errors(e: APIError):
     :param e: custom APIError error
     :return: json error for APIError
 
-    This will avoid having to try/catch Errors in all endpoints, returning
-    correct JSON response with associated HTTP 4xx Status as defined the exceptions
+    This returns correct JSON response with associated
+    HTTP 4xx Status as defined in the exceptions
     """
 
     return (
         jsonify(
             {
                 "status": "error",
-                "status_code": e.status_code or 400,
+                "status_code": e.status_code,
                 "message": e.message,
                 "result": None,
             }
