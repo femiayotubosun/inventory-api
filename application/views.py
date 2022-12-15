@@ -16,6 +16,8 @@ from application.resources import (
     PurchaseCartAction,
     SignUpAction,
     SignInAction,
+    OrderResource,
+    OrderList,
 )
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -106,9 +108,13 @@ api.add_resource(
 )
 
 
+# Order Endpoints
+api.add_resource(OrderList, "/orders/", endpoint="order_list")
+
+api.add_resource(OrderResource, "/orders/<int:order_id>/", endpoint="one_order")
+
+
 # Error Handlers
-
-
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e: ValidationError):
     """

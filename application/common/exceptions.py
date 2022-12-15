@@ -50,3 +50,17 @@ class BadRequestError(APIError):
 
     def __init__(self, message: str = "Bad request Error", status_code: int = 400):
         super().__init__(message, status_code)
+
+
+class UnauthorizedError(APIError):
+    """
+    Raised when user tries to perform operations they are not authrozied to,
+    or get resources that do not belong to them
+    """
+
+    def __init__(
+        self,
+        message: str = "You are not authorized to perform this opertation",
+        status_code: int = 401,
+    ):
+        super().__init__(message, status_code)

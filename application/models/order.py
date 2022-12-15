@@ -8,5 +8,5 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     charge = db.Column(db.Float)
-    cart = db.relationship("Cart")
-    cart_id = db.Column(db.ForeignKey("cart.id"))
+    user = db.relationship("User", back_populates="orders")
+    user_id = db.Column(db.ForeignKey("user.id"))

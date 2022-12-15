@@ -1,11 +1,10 @@
-from application.models import Cart, Product, CartItem
+from application.models import Cart, Product, CartItem, User, Order
 from application.extensions import db
 from application.common.exceptions import (
     BadRequestError,
     ResourceNotFoundError,
     InternalServerError,
 )
-from application.models import User
 from .payment import PaymentService
 
 
@@ -71,25 +70,29 @@ class CartService:
         db.session.commit()
 
     @staticmethod
-    def purchase_cart_item(cart_item: CartItem):
+    def purchase_cart_item(cart_item: CartItem) -> bool:
         product: Product = cart_item.product
         quantity = cart_item.quantity
 
         if quantity > product.quantity:
-            raise Exception()
+            raise BadRequestError(
+                f"Cart item {cart_item.product.name}'s quantity '{cart_item.quantity}' is greater than quantity in the DB"
+            )
         product.quantity -= quantity
 
     @staticmethod
     def purchase_user_cart(user: User, **kwargs):
         cart: Cart = CartService.find_or_create_user_cart(user)
         charge = 0
-        try:
-            for item in cart.items:
-                charge += item.quantity * item.product.price
-                CartService.purchase_cart_item(item)
-                db.session.commit()
 
-            if not PaymentService.process_payment():
-                raise InternalServerError("Something went wrong with the payment")
-        except:
-            db.session.rollback()
+        for item in cart.items:
+            charge += item.quantity * item.product.price
+            CartService.purchase_cart_item(item)
+
+        if not PaymentService.process_payment():
+            raise InternalServerError("Something went wrong with the payment")
+
+        order = Order(charge=charge, user=user)
+
+        db.session.add(order)
+        db.session.commit()

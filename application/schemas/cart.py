@@ -1,10 +1,19 @@
-from application.models import Cart, CartItem
+from application.models import Cart, CartItem, Product
 from application.extensions import ma, db
-from application.schemas.product import ProductSchema
+
+
+class CartItemProductSchema(ma.SQLAlchemyAutoSchema):
+    id = ma.Int(dump_only=True)
+
+    class Meta:
+        model = Product
+        sqla_session = db.session
+        load_instance = True
+        exclude = ("quantity",)
 
 
 class CartItemSchema(ma.SQLAlchemyAutoSchema):
-    product = ma.Nested(ProductSchema, dump_only=True)
+    product = ma.Nested(CartItemProductSchema, dump_only=True)
     quantity = ma.Int()
     in_stock = ma.Method("is_available")
 

@@ -10,6 +10,7 @@ class User(db.Model):
     _password = db.Column("password", db.String(255), nullable=False)
     active = db.Column(db.Boolean, default=True)
     cart = db.relationship("Cart", uselist=False, back_populates="user")
+    orders = db.relationship("Order", back_populates="user")
 
     @hybrid_property
     def password(self):
