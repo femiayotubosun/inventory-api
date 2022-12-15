@@ -6,10 +6,10 @@ class User(db.Model):
     """Basic user model"""
 
     id = db.Column(db.Integer, primary_key=True)
-    # username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     _password = db.Column("password", db.String(255), nullable=False)
     active = db.Column(db.Boolean, default=True)
+    cart = db.relationship("Cart", uselist=False, back_populates="user")
 
     @hybrid_property
     def password(self):
@@ -20,4 +20,4 @@ class User(db.Model):
         self._password = pwd_context.hash(value)
 
     def __repr__(self):
-        return "<User %s>" % self.username
+        return "<User %s>" % self.email

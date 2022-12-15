@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from application.schemas import CategorySchema, ProductSchema
+from application.schemas import CategorySchema, ProductSchema, CategoryListSchema
 from application.services import CategoryService
 from application.common.responses import (
     generic_success_response,
@@ -18,7 +18,7 @@ class CategoryList(Resource):
 
     def get(self):
         categories = self.category_service.find_categories()
-        data = CategorySchema(many=True).dump(categories)
+        data = CategoryListSchema(many=True).dump(categories)
         return generic_success_response("All categories", data)
 
     def post(self):

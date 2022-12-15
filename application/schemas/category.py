@@ -12,3 +12,13 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
         model = Category
         sqla_session = db.session
         load_instance = True
+
+
+class CategoryListSchema(ma.SQLAlchemyAutoSchema):
+    id = ma.Int(dump_only=True)
+
+    class Meta:
+        model = Category
+        sqla_session = db.session
+        load_instance = True
+        exclude = ("products",)

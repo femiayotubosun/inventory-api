@@ -5,28 +5,23 @@ from application.common.exceptions import (
     ResourceNotFoundError,
     InternalServerError,
 )
+from application.models import User
 from .payment import PaymentService
 
 
 class CartService:
     @staticmethod
-    def create_cart(**kwargs):
-        cart = Cart(**kwargs)
-
-        # db_cart = CartService.get_cart_by_user(cart.user)
-        # if db_cart:
-        #     raise ResourceExistsError("Cart already exists for this user")
-
-        db.session.add(cart)
-        db.session.commit()
-
-    @staticmethod
     def find_carts():
         return Cart.query.all()
 
     @staticmethod
-    def find_cart_by_user(*args, **kwargs) -> Cart:
-        return Cart.query.filter_by(user=kwargs["user"]).first()
+    def find_or_create_user_cart(user: User) -> Cart:
+        cart = Cart.query.filter_by(user=user).first()
+        if cart is None:
+            cart = Cart(user=user)
+            db.session.add(cart)
+            db.session.commit()
+        return cart
 
     @staticmethod
     def find_cart_by_id(cart_id: int) -> Cart:
@@ -43,8 +38,8 @@ class CartService:
         return True if cart_item else False
 
     @staticmethod
-    def add_product_to_cart(cart_id, **kwargs):
-        cart = CartService.find_cart_by_id(cart_id)
+    def add_product_to_user_cart(user: User, **kwargs):
+        cart = CartService.find_or_create_user_cart(user)
         product = Product.query.get(kwargs["product_id"])
         if product is None:
             raise ResourceNotFoundError("Product with this ID does not exist")
@@ -63,8 +58,8 @@ class CartService:
         db.session.commit()
 
     @staticmethod
-    def remove_product_from_cart(cart_id, **kwargs):
-        cart = CartService.find_cart_by_id(cart_id)
+    def remove_product_from_user_cart(user: User, **kwargs):
+        cart = CartService.find_or_create_user_cart(user)
         product = Product.query.get(kwargs["product_id"])
         if product is None:
             raise ResourceNotFoundError("Product with this ID does not exist")
@@ -74,8 +69,6 @@ class CartService:
         cart_item = CartItem.query.filter_by(product=product, cart=cart).first()
         cart.items.remove(cart_item)
         db.session.commit()
-
-    # TODO Purchase Cart
 
     @staticmethod
     def purchase_cart_item(cart_item: CartItem):
@@ -87,8 +80,8 @@ class CartService:
         product.quantity -= quantity
 
     @staticmethod
-    def purchase_cart(cart_id, **kwargs):
-        cart: Cart = CartService.find_cart_by_id(cart_id)
+    def purchase_user_cart(user: User, **kwargs):
+        cart: Cart = CartService.find_or_create_user_cart(user)
         charge = 0
         try:
             for item in cart.items:

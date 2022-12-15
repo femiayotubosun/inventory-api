@@ -1,5 +1,6 @@
 from flask_restful import Resource
 from flask import request
+from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
 from application.schemas import (
     CartSchema,
     AddProductToCartRequestSchema,
@@ -24,10 +25,7 @@ class CartView(Resource):
 
 
 class CartList(CartView):
-    def post(self):
-        self.cart_service.create_cart()
-        return create_resource_success_response("Cart Created"), 201
-
+    @jwt_required()
     def get(self):
         carts = self.cart_service.find_carts()
         data = CartSchema(many=True).dump(carts)
@@ -35,31 +33,32 @@ class CartList(CartView):
 
 
 class CartResource(CartView):
-    def get(self, cart_id: int):
-        cart = self.cart_service.find_cart_by_id(cart_id)
+    @jwt_required()
+    def get(self):
+        cart = self.cart_service.find_or_create_user_cart(current_user)
         data = CartSchema().dump(cart)
         return generic_success_response("User Cart", data)
 
 
 class AddCartItemAction(CartView):
-    def post(self, cart_id: int):
+    @jwt_required()
+    def post(self):
         AddProductToCartRequestSchema().load(request.json)
-        self.cart_service.add_product_to_cart(cart_id, **request.json)
+        self.cart_service.add_product_to_user_cart(current_user, **request.json)
         return generic_success_response("Product Added to Cart")
 
 
 class RemoveCartItemAction(CartView):
-    def __init__(self, *args, **kwargs) -> None:
-        self.cart_service: CartService = kwargs["cart_service"]
-
-    def post(self, cart_id: int):
+    @jwt_required()
+    def post(self):
         RemoveProductFromCartRequestSchema().load(request.json)
-        self.cart_service.remove_product_from_cart(cart_id, **request.json)
+        self.cart_service.remove_product_from_user_cart(current_user, **request.json)
         return generic_success_response("Product Removed from Cart")
 
 
 class PurchaseCartAction(CartView):
-    def post(self, cart_id: int, **kwargs):
+    @jwt_required()
+    def post(self):
         PurchaseCartRequestSchema().load(request.json)
-        self.cart_service.purchase_cart(cart_id, **request.json)
+        self.cart_service.purchase_user_cart(current_user, **request.json)
         return generic_success_response("Purchase Successful")

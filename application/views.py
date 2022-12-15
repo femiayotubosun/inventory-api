@@ -39,28 +39,28 @@ api.add_resource(
 
 api.add_resource(
     CartResource,
-    "/carts/<int:cart_id>",
-    endpoint="one_cart",
+    "/cart",
+    endpoint="user_cart",
     resource_class_kwargs={"cart_service": CartService},
 )
 
 api.add_resource(
     AddCartItemAction,
-    "/carts/<int:cart_id>/add",
+    "/cart/add",
     endpoint="add_product_to_cart",
     resource_class_kwargs={"cart_service": CartService},
 )
 
 api.add_resource(
     RemoveCartItemAction,
-    "/carts/<int:cart_id>/remove",
+    "/cart/remove",
     endpoint="remove_product_to_cart",
     resource_class_kwargs={"cart_service": CartService},
 )
 
 api.add_resource(
     PurchaseCartAction,
-    "/carts/<int:cart_id>/purchase",
+    "/cart/purchase",
     endpoint="purchase_cart",
     resource_class_kwargs={"cart_service": CartService},
 )

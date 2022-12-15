@@ -4,7 +4,6 @@ from application.schemas.product import ProductSchema
 
 
 class CartItemSchema(ma.SQLAlchemyAutoSchema):
-    id = (ma.Int(dump_only=True),)
     product = ma.Nested(ProductSchema, dump_only=True)
     quantity = ma.Int()
     in_stock = ma.Method("is_available")
@@ -13,19 +12,20 @@ class CartItemSchema(ma.SQLAlchemyAutoSchema):
         model = CartItem
         load_instance = True
         sqla_session = db.session
+        exclude = ("id",)
 
     def is_available(self, obj) -> bool:
         return obj.product.quantity > 1
 
 
 class CartSchema(ma.SQLAlchemyAutoSchema):
-    id = ma.Int(dump_only=True)
     items = ma.Nested(CartItemSchema, many=True, dump_only=True)
 
     class Meta:
         model = Cart
         sqla_session = db.session
         load_instance = True
+        exclude = ("id",)
 
 
 class AddProductToCartRequestSchema(ma.Schema):

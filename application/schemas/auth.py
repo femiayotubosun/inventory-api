@@ -1,18 +1,5 @@
-from application.extensions import ma, db
-from application.models import User
+from application.extensions import ma
 from marshmallow import validates_schema, validate, ValidationError
-
-
-class UserSchema(ma.SQLAlchemyAutoSchema):
-
-    id = ma.Int(dump_only=True)
-    password = ma.String(load_only=True, required=True)
-
-    class Meta:
-        model = User
-        sqla_session = db.session
-        load_instance = True
-        exclude = ("_password",)
 
 
 class SignupUserRequestSchema(ma.Schema):

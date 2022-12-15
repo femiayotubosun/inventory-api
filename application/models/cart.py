@@ -17,4 +17,5 @@ class Cart(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     items = db.relationship("CartItem", back_populates="cart")
-    # user
+    user = db.relationship("User", back_populates="cart")
+    user_id = db.Column(db.ForeignKey("user.id"))

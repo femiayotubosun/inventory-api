@@ -1,6 +1,6 @@
 from flask_jwt_extended import create_access_token
 
-from application.extensions import db, pwd_context
+from application.extensions import db, pwd_context, jwt
 from application.schemas import UserSchema
 from application.models import User
 from application.common.exceptions import BadRequestError
@@ -31,3 +31,9 @@ class AuthService:
 
         access_token = create_access_token(identity=user.id)
         return {"access_token": access_token}
+
+
+@jwt.user_lookup_loader
+def user_loader_callback(jwt_headers, jwt_payload):
+    identity = jwt_payload["sub"]
+    return User.query.get(identity)
