@@ -15,6 +15,7 @@ flask-migrate = "*"
 flask-jwt-extended = "*"
 gunicorn = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"
