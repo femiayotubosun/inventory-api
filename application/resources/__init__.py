@@ -13,6 +13,8 @@ from .cart import (
     PurchaseCartAction,
 )
 
+from .auth import SignUpAction
+
 __all__ = [
     "ProductResource",
     "ProductList",
@@ -24,4 +26,5 @@ __all__ = [
     "AddCartItemAction",
     "RemoveCartItemAction",
     "PurchaseCartAction",
+    "SignUpAction",
 ]

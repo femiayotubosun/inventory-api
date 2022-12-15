@@ -14,28 +14,17 @@ from application.resources import (
     AddCartItemAction,
     RemoveCartItemAction,
     PurchaseCartAction,
+    SignUpAction,
 )
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 api = Api(blueprint)
 
 
-# Product Endpoints
+# Auth Endpoints
 
-api.add_resource(
-    ProductList,
-    "/products/",
-    endpoint="product_list",
-    resource_class_kwargs={"product_service": ProductService},
-)
+api.add_resource(SignUpAction, "/auth/signup", endpoint="signup")
 
-
-api.add_resource(
-    ProductResource,
-    "/products/<int:product_id>/",
-    endpoint="product_by_id",
-    resource_class_kwargs={"product_service": ProductService},
-)
 
 # Cart Endpoints
 
@@ -96,6 +85,22 @@ api.add_resource(
     "/categories/<int:category_id>/products/",
     endpoint="create_product_in_category",
     resource_class_kwargs={"category_service": CategoryService},
+)
+
+# Product Endpoints
+api.add_resource(
+    ProductList,
+    "/products/",
+    endpoint="product_list",
+    resource_class_kwargs={"product_service": ProductService},
+)
+
+
+api.add_resource(
+    ProductResource,
+    "/products/<int:product_id>/",
+    endpoint="product_by_id",
+    resource_class_kwargs={"product_service": ProductService},
 )
 
 
