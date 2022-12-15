@@ -15,6 +15,7 @@ from application.resources import (
     RemoveCartItemAction,
     PurchaseCartAction,
     SignUpAction,
+    SignInAction,
 )
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -24,6 +25,7 @@ api = Api(blueprint)
 # Auth Endpoints
 
 api.add_resource(SignUpAction, "/auth/signup", endpoint="signup")
+api.add_resource(SignInAction, "/auth/signin", endpoint="signin")
 
 
 # Cart Endpoints
