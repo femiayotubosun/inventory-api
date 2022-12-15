@@ -6,6 +6,7 @@ from application.schemas.cart import (
     RemoveProductFromCartRequestSchema,
     PurchaseCartRequestSchema,
 )
+from .auth import SignupUserRequestSchema
 
 __all__ = [
     "ProductSchema",
@@ -14,4 +15,5 @@ __all__ = [
     "AddProductToCartRequestSchema",
     "RemoveProductFromCartRequestSchema",
     "PurchaseCartRequestSchema",
+    "SignupUserRequestSchema",
 ]
