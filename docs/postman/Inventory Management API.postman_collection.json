@@ -1,0 +1,1760 @@
+{
+	"info": {
+		"_postman_id": "a79667b8-b6a0-42aa-b570-60aaf8619f9c",
+		"name": "Inventory Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23283058"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"femiayotubosun@gmail.com\",\r\n    \"username\": \"femiayot\",\r\n    \"password\": \"1234567\",\r\n    \"password_confirm\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:5000/api/v1/auth/signup",
+							"host": [
+								"{{host}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var authToken = jsonData.result.access_token\r",
+									"pm.collectionVariables.set(\"token\", authToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"femiayotubosun@gmail.com\",\r\n    \"password\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:5000/api/v1/auth/signin",
+							"host": [
+								"{{host}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create New Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Winter Clothing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						},
+						"description": "Endpoint for creating a new category"
+					},
+					"response": [
+						{
+							"name": "Create New Category Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My New Category\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"status": "CREATED",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:41:53 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "107"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 201,\n    \"message\": \"Category Created\",\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Create New Category Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:42:20 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": [\n        \"Missing data for required field.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						},
+						"description": "Endpoint for getting all categories"
+					},
+					"response": [
+						{
+							"name": "Get All Categories",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:39:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "610"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": [\n        {\n            \"name\": \"Summer2\",\n            \"products\": [],\n            \"id\": 3\n        },\n        {\n            \"name\": \"Winter Clothes\",\n            \"products\": [\n                {\n                    \"name\": \"Product 1\",\n                    \"price\": 200,\n                    \"id\": 1\n                },\n                {\n                    \"name\": \"Nike AirForce\",\n                    \"price\": 900,\n                    \"id\": 3\n                }\n            ],\n            \"id\": 4\n        }\n    ],\n    \"status_code\": 200,\n    \"message\": \"All categories\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get One Category By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/categories/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Endpoint for getting one category by Id"
+					},
+					"response": [
+						{
+							"name": "Get One Category By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/3",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:40:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "177"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": {\n        \"name\": \"Summer2\",\n        \"products\": [],\n        \"id\": 3\n    },\n    \"status_code\": 200,\n    \"message\": \"Category details\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Product With Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sweater\",\r\n    \"price\": 2000,\r\n    \"quantity\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/categories/1/products/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"products",
+								""
+							]
+						},
+						"description": "Endpoint for getting one category by Id"
+					},
+					"response": [
+						{
+							"name": "Craete Product With Category Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/3/products/",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"3",
+										"products",
+										""
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:48:16 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "176"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": [\n        \"Missing data for required field.\"\n    ],\n    \"price\": [\n        \"Missing data for required field.\"\n    ],\n    \"quantity\": [\n        \"Missing data for required field.\"\n    ]\n}"
+						},
+						{
+							"name": "Craete Product With Category Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jacket\",\r\n    \"price\": 2000,\r\n    \"quantity\": 300\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/4/products/",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"4",
+										"products",
+										""
+									]
+								}
+							},
+							"status": "CREATED",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:49:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 201,\n    \"message\": \"Product created for category\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update One Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"des\":\"Winter Summer Clothing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/categories/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"3"
+							]
+						},
+						"description": "Endpoint for getting one category by Id"
+					},
+					"response": [
+						{
+							"name": "Update One Category Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Winter Summer Clothing\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/3",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:44:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "107"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 200,\n    \"message\": \"Category Updated\",\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Update One Category Failure",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"des\":\"Winter Summer Clothing\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/3",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"3"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:45:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"des\": [\n        \"Unknown field.\"\n    ],\n    \"name\": [\n        \"Missing data for required field.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete One Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:5000/api/v1/categories/3",
+							"host": [
+								"{{host}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"3"
+							]
+						},
+						"description": "Endpoint for getting one category by Id"
+					},
+					"response": [
+						{
+							"name": "Delete One Category",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/categories/3",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"3"
+									]
+								}
+							},
+							"status": "NO CONTENT",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:46:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"description": "This folder contains all API endpoints for Product Categories"
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/products/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"1"
+							]
+						},
+						"description": "This endpoint gets Products by Id"
+					},
+					"response": [
+						{
+							"name": "Get Product By Id Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products/1",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:53:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "94"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"product\": {\n        \"name\": \"Product 1\",\n        \"price\": 200,\n        \"id\": 1\n    }\n}"
+						},
+						{
+							"name": "Get Product By Id Failure",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products/50",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"50"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:54:01 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product with this ID does not exist\",\n    \"result\": null,\n    \"status\": \"error\",\n    \"status_code\": 404\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						},
+						"description": "This endpoint gets all products"
+					},
+					"response": [
+						{
+							"name": "Get All Products Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:52:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "407"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": [\n        {\n            \"name\": \"Product 1\",\n            \"price\": 200,\n            \"id\": 1\n        },\n        {\n            \"name\": \"Nike AirForce\",\n            \"price\": 900,\n            \"id\": 3\n        },\n        {\n            \"name\": \"Jacket\",\n            \"price\": 2000,\n            \"id\": 4\n        }\n    ],\n    \"status_code\": 200,\n    \"message\": \"All products\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nike Airforce 1\",\r\n    \"price\": 500,\r\n    \"quantity\": 40\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/products/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"1"
+							]
+						},
+						"description": "This endpoint updates products."
+					},
+					"response": [
+						{
+							"name": "Update Product Failure",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products/1",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:55:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "176"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": [\n        \"Missing data for required field.\"\n    ],\n    \"price\": [\n        \"Missing data for required field.\"\n    ],\n    \"quantity\": [\n        \"Missing data for required field.\"\n    ]\n}"
+						},
+						{
+							"name": "Update Product Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Nike Airforce 1\",\r\n    \"price\": 500,\r\n    \"quantity\": 40\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products/1",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:55:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "106"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 200,\n    \"message\": \"Product updated\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/products/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Product Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/products/3",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"3"
+									]
+								}
+							},
+							"status": "NO CONTENT",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 16:56:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "This folder contains API endpoints for Products",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add Product to Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/cart/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"add"
+							]
+						},
+						"description": "This Endpoint adds a product to Cart.\n\nQuantity defaults to 1 if there is no quantity specified.\n\nIf Product is already in cart, Product quantity will be updated with the quantity in request body. But if there is not quantity, it will be left unchanged."
+					},
+					"response": [
+						{
+							"name": "Add Product to Cart Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1/add",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1",
+										"add"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 20:29:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "112"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 200,\n    \"message\": \"Product Added to Cart\",\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Add Product to Cart Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_id\": 9\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1/add",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1",
+										"add"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 20:30:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product with this ID does not exist\",\n    \"result\": null,\n    \"status\": \"error\",\n    \"status_code\": 404\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Product From Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/cart/remove",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"remove"
+							]
+						},
+						"description": "This Endpoint adds a product to Cart"
+					},
+					"response": [
+						{
+							"name": "Remove Product From  Cart Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1/remove",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1",
+										"remove"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 20:26:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "103"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product is not in cart\",\n    \"result\": null,\n    \"status\": \"error\",\n    \"status_code\": 400\n}"
+						},
+						{
+							"name": "Remove Product From Cart Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1/remove",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1",
+										"remove"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 20:27:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 200,\n    \"message\": \"Product Removed from Cart\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get  User Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/cart",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cart"
+							]
+						},
+						"description": "Get One Cart"
+					},
+					"response": [
+						{
+							"name": "Get Cart By ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_id\": 1,\r\n    \"quantity\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 17:31:00 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": {\n        \"id\": 1,\n        \"items\": []\n    },\n    \"status_code\": 200,\n    \"message\": \"User Cart\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Purchase Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"card_number\": \"12222\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/cart/purchase",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"purchase"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Purchase Cart Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"card_number\": \"12222\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/1/purchase",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										"1",
+										"purchase"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 22:11:12 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "110"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": null,\n    \"status_code\": 200,\n    \"message\": \"Purchase Successful\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains all API endpoints for cart",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Misc Routes",
+			"item": [
+				{
+					"name": "Get All Carts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/carts/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"carts",
+								""
+							]
+						},
+						"description": "Get All Carts"
+					},
+					"response": [
+						{
+							"name": "GEt All Carts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:5000/api/v1/carts/",
+									"host": [
+										"{{host}}"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"v1",
+										"carts",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Dec 2022 17:32:24 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "168"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": [\n        {\n            \"id\": 1,\n            \"items\": []\n        }\n    ],\n    \"status_code\": 200,\n    \"message\": \"All Carts\",\n    \"status\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://inventory-api-zdik.onrender.com/",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
