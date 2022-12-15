@@ -13,6 +13,8 @@ flask-marshmallow = "*"
 marshmallow = "*"
 flask-migrate = "*"
 flask-jwt-extended = "*"
+gunicorn = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
 
 [dev-packages]
 black = "*"

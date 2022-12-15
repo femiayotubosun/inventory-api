@@ -1,5 +1,5 @@
 from flask import Flask
-from application.extensions import db, migrate
+from application.extensions import db, migrate, jwt
 from application.views import blueprint as app_bp
 
 
@@ -20,6 +20,4 @@ class Application:
     def configure_extensions(self):
         db.init_app(self.app)
         migrate.init_app(self.app, db)
-
-
-
+        jwt.init_app(self.app)
