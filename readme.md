@@ -21,10 +21,10 @@ Use a database of your choice
 -- Purchase Cart
 -- Purchase 1 Product
 
-## Live Link
+## Live
 
-`https://inventory-api-zdik.onrender.com`
+<a href="https://inventory-api-zdik.onrender.com">Link to render</a>
 
-## Link to Postman documentation
+## Documentation
 
-`https://elements.getpostman.com/redirect?entityId=23283058-a79667b8-b6a0-42aa-b570-60aaf8619f9c&entityType=collection`
+<a href="https://elements.getpostman.com/redirect?entityId=23283058-a79667b8-b6a0-42aa-b570-60aaf8619f9c&entityType=collection">Link to Postman docs </a>
