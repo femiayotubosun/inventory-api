@@ -1,5 +1,5 @@
 from flask import Flask
-from application.extensions import db, migrate, jwt
+from application.extensions import db, migrate, jwt, cors
 from application.views import blueprint as app_bp
 
 
@@ -21,3 +21,4 @@ class Application:
         db.init_app(self.app)
         migrate.init_app(self.app, db)
         jwt.init_app(self.app)
+        # cors.init_app(self.app)

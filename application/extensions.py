@@ -2,6 +2,8 @@ from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
+
+# from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from passlib.context import CryptContext
 
@@ -18,6 +20,7 @@ metadata = MetaData(naming_convention=convention)
 
 db: SQLAlchemy = SQLAlchemy(metadata=metadata)
 ma: Marshmallow = Marshmallow()
+# cors: CORS = CORS()
 migrate: Migrate = Migrate()
 jwt: JWTManager = JWTManager()
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")

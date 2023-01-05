@@ -149,3 +149,10 @@ def handle_api_errors(e: APIError):
         ),
         e.status_code,
     )
+
+
+@blueprint.after_request
+def after_request(response):
+    header = response.headers
+    header["Access-Control-Allow-Origin"] = "*"
+    return response

@@ -16,6 +16,8 @@ flask-jwt-extended = "*"
 gunicorn = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 psycopg2 = "*"
+uvicorn = "*"
+flask-cors = "*"
 
 [dev-packages]
 black = "*"
