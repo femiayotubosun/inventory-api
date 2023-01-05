@@ -1,5 +1,5 @@
 from flask import Flask
-from application.extensions import db, migrate, jwt, cors
+from application.extensions import db, migrate, jwt
 from application.views import blueprint as app_bp
 
 
